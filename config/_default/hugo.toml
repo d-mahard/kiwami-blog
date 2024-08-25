@@ -8,7 +8,7 @@ languageCode = 'en-us'
 
 # title = "Site Title"
 
-theme = "kayal" # UNCOMMENT THIS LINE
+theme = "wine-bar" # UNCOMMENT THIS LINE
 
 # Number of articles per page in the listing.
 paginate = 5
