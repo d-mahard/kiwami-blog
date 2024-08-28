@@ -1,0 +1,3 @@
+[submodule "themes/wine-bar"]
+	path = themes/wine-bar
+	url = https://github.com/d-mahard/hugo-wine-bar.git
