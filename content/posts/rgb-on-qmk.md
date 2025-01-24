@@ -6,45 +6,46 @@ draft = true
 
 # Understanding RGB Lighting in QMK: A Guide
 
-When talking about lighting for a QMK-based keyboard, it's important to distinguish between a few key terms: 
-LED vs RGB, and backlight vs underglow.
+When diving into the world of RGB lighting for a QMK-based keyboard, it's critical to get your terms straight: LED vs RGB, and backlight vs underglow.
 
 **LED** refers to a mono-color light, while **RGB** stands for multi-color, self-addressable light.
 
-**Backlight** is the light under the key switches and keycaps, shining through or between the keycaps. In QMK, this is called RGB matrix because it's usually set up in a matrix configuration, as opposed to an LED strip configuration.
+**Backlight** refers to the light under the key switches and keycaps, shining through or between the keycaps. In QMK, we call this the RGB matrix because it's typically arranged in a matrix configuration (unlike an LED strip).
 
-**Underglow** is the light placed below or on the side of the keyboard's body, usually in the form of an LED strip.
+**Underglow**, on the other hand, is the light placed below or on the side of the keyboard's body, usually in the form of an LED strip.
 
-I want RGB backlighting to help with key identification across different layers. For simplicity, I'll use the term **LEDs** to refer to this moving forward.
+I am going to use RGB backlight for my keyboard, because I want to use that not just for decorative purpose, but also to help me memorize the many layers and keys there. For this guide, when I mention LED, generally it will be clear from the context whether it is physical LEDs (that can be mono or RGB), or the actual RGB LEDs that I am using in my circuit.
 
-## How to Connect LEDs to the Controller
+## Connecting LEDs to the Controller
 
-My first big question was how the LEDs are connected to the controller or keycaps. I found plenty of key switch matrix schematics like the one shown below, but none included information on attaching LEDs. I assumed each LED was somehow connected to each key switch, but I was wrong. This is also why switch matrices that include LEDs are rare.
+The first puzzle to solve: how do you connect the LEDs to the controller (or key switches)? Initially, I assumed that each LED was somehow tied to its corresponding key switch. I was wrong. LED setups are completely separate circuits.
 
-The reason? LEDs are configured and set up in a totally separate circuit, even though they are physically in the same position as the switches.
+The LEDs connect to a **driver**, which then communicates with the main controller—in my case, the RP2040. The connection between each LED to the key switch happens in the software, not hardware.
 
-These LEDs connect to something called a **driver**, which then communicates with the main controller (in my case, the RP2040).
+For the driver, I opted for the **IS31FL3731** simply because it's quite easy to find, and available as a [breakout board](#adafruit), making it ideal for prototyping. 
 
-I'm using the **IS31FL3731** because it's the most readily available in the market in the form of a breakout board, making it quite easy to prototype.
+## Wiring LEDs to the Driver
 
-## How Do the LEDs connect to the Driver?
+The driver links to the LEDs in a matrix form. However, unlike key switch matrices (where rows and columns connect to pins), this particular driver uses a method called **charlieplexing**.
 
-The driver connects to the LEDs in a matrix form, but unlike the key switch matrix (where rows and columns connect to pins), the LEDs are configured in a form known as **charlieplexing**.
+Charlieplexing is a technique to connect more LEDs into a fewer number of pins, by leveraging the fact that an LED can only light when the current goes in a certain direction, but not the opposite. Imagine we have two pins, A and B. In a normal setup, we put one LED between them, and it will light up when the direction of current is the same with direction of LED. When we use the charlieplex setup, we can put two LEDs between A and B, in an opposing direction. You can check this [wikipedia article](#wikipedia) to get more detailed explanation.
 
-Essentially, charlieplexing allows... (add explanation of charlieplexing here).
+RGB charlieplexing adds another layer of complexity because each RGB LED shares a common anode or cathode. This complicates the positioning when dealing with multiple LEDs. To make things more difficult, the [datasheet](#datasheer) does not mention anything about RGB, and the QMK documentation only mentions about how many RGB LEDs can used - and even that seems to be incorrect. 
 
-Things get more complicated with RGB charlieplexing because each RGB LED needs to share either a common anode or cathode. This makes positioning more challenging, especially when dealing with many LEDs. For my first prototype, I only needed 6, so it wasn't as challenging.
+What the QMK docs of IS31FL3731 got right is that the number of possible RGB LEDs is not simply one third of mono-color RGB. IS31FL3731 provides two charlieplex matrices, each has 9 pins which translates to 72 slots for mono-color LED. In the case of RGB, for each of the LED I need to find 3 slots that share a common pin. Let's say I use a common anode RGB, and choose pin 9 for the anode. I can use pin 1, 2, and 3 for the cathodes. I can still use pin 9 for the anode of another RGB because I can use pin 4, 5, and 6 for the cathodes. This leaves pin 7 and 8 unusable as cathodes when we use pin 9 for anode, because we would need three to place another RGB. Using this logic I manually counted 
 
 ## Connecting the Driver to the RP2040
 
-Next question: how should I connect the driver to the RP2040? The driver has two sets of pins for the I2C connection: VCC, GND, SDA, and SCL. Even the Adafruit datasheet isn't very clear on this. I assumed one set could be used for daisy chaining, but which one?
+Next up: how do you connect the driver to the RP2040? The driver sports two sets of pins for the I2C connection: VCC, GND, SDA, and SCL. The Adafruit datasheet wasn't exactly a model of clarity here. I guessed that one set might be for daisy chaining, but which?
 
-I ended up testing the driver using an Arduino and its sample code. The answer was: both will work. Just choose either set.
+To figure this out, I tested the driver with an Arduino using its sample code. Turns out, both sets of pins work, so pick either one.
 
 ## Setting Up QMK to Control the Lights
 
-Finally, how do you set up QMK to control the lights? The configurations are spread across several locations, and here’s a summary for the RP2040.
+Now, how do you configure QMK to control the lights? The configuration steps are scattered across several files. Here’s a concise rundown for the RP2040.
 
 (Include configuration steps and code snippets here)
 
-This should be your "hello world" for RGB backlighting in QMK. Soon after this, you might notice that no matter what you do, you can't change the color or animation beyond the initial setup. This drove me crazy as there's no clear explanation anywhere. The answer lies in something called **EEPROM**. Check out my next article for more details. In the meantime, give yourself a pat on the back for lighting up some LEDs in QMK!
+This should serve as your "hello world" for RGB backlighting in QMK. But don't get too comfortable! You may find that you can't change the color or animation after the initial setup—this baffled me for a while. The solution? **EEPROM**. Stay tuned for my next article diving deeper into this.
+
+For now, give yourself a pat on the back—you’ve successfully lit up some LEDs in QMK!

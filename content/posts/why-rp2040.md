@@ -1,45 +1,43 @@
 +++
-title = 'Why Rp2040'
+title = 'Why RP2040'
 date = 2024-08-24T23:10:49+02:00
 draft = false
 +++
 
-
 # How I Landed on the RP2040 for My Custom Keyboard Project
 
-Building a custom keyboard is full of decisions, and one of the most critical is choosing the right controller. After weighing my options, I ultimately chose the RP2040, even though it's not typically the go-to choice in the custom keyboard community. Here’s how I arrived at that decision.
+Building a custom keyboard is inundated with choices, and possibly the most crucial one is selecting the right controller. After exploring a plethora of options, I settled on the RP2040—an unconventional choice in the custom keyboard community. Here's how I came to that decision.
 
-(Curious about why I’m building my own keyboard in the first place? You can find that story in my earlier article.)
+(Curious about why I’m building my own keyboard? Check out my earlier article for the full story.)
 
 ## The Spark: A Video by Jan Lunge
 
-My exploration of the RP2040 began with a (video by Jan Lunge)[]. In it, he shared his journey of building not just a keyboard, but the entire environment around it including even his own keyboard configurator (!!). Jan’s deep dive into the RP2040’s capabilities in the beginning of the video piqued my interest. He made a compelling case for the MCU’s power, by putting not just the firmware but also the source code of the keyboard directly, leveraging CircuitPython and KMK. 
+The RP2040 caught my eye thanks to a video by Jan Lunge. In it, he detailed his process of building not just a keyboard, but an entire surrounding ecosystem, including his own keyboard configurator (!!). Jan’s analysis of the RP2040’s capabilities at the beginning of the video hooked me. He showcased how the MCU’s power could handle firmware and the keyboard's source code, leveraging CircuitPython and KMK.
 
-## The Powerhouse RP2040
+## The RP2040: A Powerhouse
 
-What really sold me on the RP2040 in Jan's video was the part shown below, where he compares RP2040 with ProMicro, which is powered by ATMega
+What really sold me on the RP2040 was Jan's comparison with the ProMicro, which is powered by the ATmega microcontroller.
 
-I’m no expert in microcontroller specs, but it was clear that the RP2040 offers more capable than ATmega. Another possible contender is STM32. However, according to [keebsupply](https://docs.keeb.supply/basics/hardware/rp2040/), it's pretty pricey and hard to find these days.
+I'm no expert in microcontrollers, but it was evident that the RP2040 is more capable than the ATmega series. Another potential contender was the STM32. However, as [keebsupply](https://docs.keeb.supply/basics/hardware/rp2040/) notes, it's pricey and increasingly difficult to find.
 
-Since I plan to go wild with my keyboard—lots of layers, RGB backlighting, macros, OLED displays, and maybe even haptic feedback—I needed something that could handle all of that without breaking a sweat. RP2040 then is a no-brainer here.
+Given my ambitious plans for the keyboard—multi-layer support, RGB backlighting, macros, OLED displays, and potentially even haptic feedback—the RP2040 was the obvious choice. I needed a microcontroller that could manage all of this without breaking a sweat.
 
 ## QMK Compatibility and Solid Documentation
 
-Despite Jan’s interesting approach with KMK, I was hesitant to follow his path because I wanted to use QMK —mainly for its popularity. Also, contrary to what Jan said, KMK does *not* actually support RGB backlighting, only underglow (and definitely no haptic feedback 😅). I also worried that there won't be enough support or at least example on the combination of RP2040 and QMK. That worry didn't last long though. 
+Although Jan's approach with KMK was intriguing, I was hesitant to follow it because I wanted to stay within the QMK ecosystem, largely due to its popularity. Jan mentioned that KMK supported RGB backlighting, but I discovered it only supports underglow (and haptic feedback is a no-go 😅). Initially, I was worried about the lack of support and examples for using the RP2040 with QMK. 
 
-I discovered that QMK added support for the RP2040 in [mid 2022](https://learn.adafruit.com/using-qmk-on-rp2040-microcontrollers/overview), and the documentation has been improving ever since. A quick glance through the QMK documentation for the RP2040 reassured me that I’d have enough resources to work with.
+However, my concerns were soon alleviated. QMK added support for the RP2040 in [mid-2022](https://learn.adafruit.com/using-qmk-on-rp2040-microcontrollers/overview), and the documentation has been improving. After a quick glance through the QMK documentation for the RP2040, I felt reassured that I’d have enough resources to get started.
 
-Moreover, Raspberry Pi’s documentation and datasheets for the RP2040 are nothing short of comprehensive. Having detailed guidelines from both QMK and Raspberry Pi made me confident that I could start the adventure with enough guidelines.
+Additionally, Raspberry Pi’s documentation and datasheets for the RP2040 are impressively thorough. The wealth of detailed guidelines from both QMK and Raspberry Pi gave me the confidence I needed to embark on this project.
 
-## Popularity and Community Support 
+## Popularity and Community Support
 
-Another big factor was the growing community around the RP2040 in custom keyboards. As more people start using this MCU, the shared knowledge base is expanding, which is a huge plus for anyone who’s just starting out with it. Unlike STM32 or ATMega, which are popular mostly only within electrical engineering people, Raspberry's products are quite familiar for a larger audience. (To be fair, if we count Arduino, then ATMega is just as popular - but I doubt most people know that Arduino is powered by ATmega..).
+Another significant factor was the growing community around the RP2040 in the custom keyboard scene. As more enthusiasts adopt this MCU, the collective knowledge base expands, providing immense support for newcomers. Unlike STM32 or ATmega, which are primarily known among electrical engineering circles, Raspberry Pi products enjoy broader recognition. (To be fair, ATmega has similar popularity through Arduino, but how many people realize Arduino runs on ATmega?)
 
-Anyway, the point is, the more popular it is, the more support I can expect from the community.
+The point is: greater popularity translates to more community support.
 
-## Let the Journey Begins
+## Let the Journey Begin
 
-This is just the start of my journey with the RP2040 and the whole keyboard development. I plan to share more stories in future blog posts about the build process, the challenges, and basically anything that can benefit the community. Stay tuned!
+This marks the beginning of my journey with the RP2040 and custom keyboard development. I plan to share more stories in upcoming blog posts about the build process, the challenges, and any tips that could benefit the community. Stay tuned!
 
-
-> disclaimer/acknowledgement: This article writing process is assisted by AI to make it more enjoyable to read. However, the content is authentic from my own research and experience.
+> Disclaimer: This article’s writing process was assisted by AI to enhance readability. However, the research and experiences shared are authentically mine.
